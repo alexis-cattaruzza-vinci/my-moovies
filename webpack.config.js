@@ -2,13 +2,23 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
+const DEVELOPMENT_PATH_PREFIX = '/'; 
+const PRODUCTION_PATH_PREFIX = '/my-moovies/';
+
+const buildMode = process.argv[process.argv.indexOf('--mode') + 1];
+const isProductionBuild = buildMode === 'production';
+
+
+const PATH_PREFIX = isProductionBuild ? PRODUCTION_PATH_PREFIX : DEVELOPMENT_PATH_PREFIX;
+
+
 module.exports = {
   mode: 'none',
   entry: './src/index.js',
   output: {
     path: `${__dirname}/dist`,
     filename: 'bundle.js',
-    publicPath: '/',
+    publicPath: PATH_PREFIX,
   },
   devtool: 'eval-source-map',
   devServer: {
